@@ -49,7 +49,7 @@ $TARGETDIR/icu/source/configure --prefix=$(pwd)/prebuilts \
     RINLIB=$CROSS_COMPILE_PLATFORM-ranlib \
     --with-data-packaging=static
 
-make -j5
+make -j15
 
 if ! [[ $ENABLE_INTL ]]; then
   rm lib/libicui18n_jsc.a

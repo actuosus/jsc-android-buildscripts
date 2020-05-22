@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-export ANDROID_API_FOR_ABI_32=16
-export ANDROID_API_FOR_ABI_64=21
 export ROOTDIR=$PWD
 export TARGETDIR=$ROOTDIR/build/target
 source $ROOTDIR/scripts/info.sh
@@ -38,7 +36,7 @@ patchAndMakeICU() {
   --disable-layout \
   --disable-layoutex
 
-  make -j5
+  make -j15
   cd $ROOTDIR
 
   #remove icu headers from WTF, so it won't use them instead of the ones from icu/host/common
@@ -88,10 +86,10 @@ prep
 compile
 createAAR "android-jsc"
 
-export I18N=true
-prep
-compile
-createAAR "android-jsc"
+#export I18N=true
+#prep
+#compile
+#createAAR "android-jsc"
 
 createAAR "cppruntime"
 

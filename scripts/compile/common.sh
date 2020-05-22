@@ -95,6 +95,8 @@ var="PLATFORM_LDFLAGS_$JSC_ARCH"
 PLATFORM_LDFLAGS=${!var}
 var="JNI_ARCH_$JSC_ARCH"
 JNI_ARCH=${!var}
+ANDROID_ABI=$JNI_ARCH
+
 var="TOOLCHAIN_LINK_DIR_$JSC_ARCH"
 TOOLCHAIN_LINK_DIR=${!var}
 
@@ -110,8 +112,6 @@ process_switch_options "INTL"
 
 # checks
 err=false
-if ! [[ $ANDROID_API_FOR_ABI_32 ]]; then echo "set ANDROID_API_FOR_ABI_32 to the minimum supported Android platform version for arm and x86 (e.g. 16)"; err=true; fi
-if ! [[ $ANDROID_API_FOR_ABI_64 ]]; then echo "set ANDROID_API_FOR_ABI_64 to the minimum supported Android platform version for arm64 and x86_64 (e.g. 21)"; err=true; fi
 if ! [[ $FLAVOR ]]; then echo "set FLAVOR to the name of the flavor"; err=true; fi
 if ! [[ $CROSS_COMPILE_PLATFORM ]]; then echo "set JSC_ARCH to one of {arm,arm64,x86,x86_64}"; err=true; fi
 if ! [[ $ANDROID_HOME ]]; then echo "set ANDROID_HOME to android sdk dir"; err=true; fi

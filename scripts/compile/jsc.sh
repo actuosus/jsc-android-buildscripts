@@ -6,6 +6,8 @@ source $SCRIPT_DIR/common.sh
 CMAKE_FOLDER=$(cd $ANDROID_HOME/cmake && ls -1 | sort -r | head -1)
 PATH=$TOOLCHAIN_DIR/bin:$ANDROID_HOME/cmake/$CMAKE_FOLDER/bin/:$PATH
 
+CMAKE_FOLDER=${ANDROID_HOME}/cmake/${CMAKE_FOLDER}/bin
+
 rm -rf $TARGETDIR/webkit/$CROSS_COMPILE_PLATFORM-${FLAVOR}
 rm -rf $TARGETDIR/webkit/WebKitBuild
 cd $TARGETDIR/webkit/Tools/Scripts
@@ -15,9 +17,9 @@ $SWITCH_JSC_CFLAGS_COMPAT \
 $JSC_CFLAGS \
 $PLATFORM_CFLAGS \
 -I$TARGETDIR/icu/source/i18n \
--I$TOOLCHAIN_DIR/sysroot/usr/include \
 "
 
+#todo, move c++_shared to c++_static
 CMAKE_LD_FLAGS=" \
 -latomic \
 -lm \
@@ -26,19 +28,12 @@ $JSC_LDFLAGS \
 $PLATFORM_LDFLAGS \
 "
 
-export AR=$CROSS_COMPILE_PLATFORM-ar
-export AS=$CROSS_COMPILE_PLATFORM-clang
-export CC=$CROSS_COMPILE_PLATFORM-clang
-export CXX=$CROSS_COMPILE_PLATFORM-clang++
-export LD=$CROSS_COMPILE_PLATFORM-ld
-export STRIP=$CROSS_COMPILE_PLATFORM-strip
-
-ARCH_NAME_PLATFORM_arm="arm"
-ARCH_NAME_PLATFORM_arm64="aarch64"
-ARCH_NAME_PLATFORM_x86="i686"
-ARCH_NAME_PLATFORM_x86_64="x86_64"
-var="ARCH_NAME_PLATFORM_$JSC_ARCH"
-export ARCH_NAME=${!var}
+#export AR=$CROSS_COMPILE_PLATFORM-ar
+#export AS=$CROSS_COMPILE_PLATFORM-clang
+#export CC=$CROSS_COMPILE_PLATFORM-clang
+#export CXX=$CROSS_COMPILE_PLATFORM-clang++
+#export LD=$CROSS_COMPILE_PLATFORM-ld
+#export STRIP=$CROSS_COMPILE_PLATFORM-strip
 
 
 if [[ "$BUILD_TYPE" = "Release" ]]
@@ -50,7 +45,7 @@ else
     BUILD_TYPE_FLAGS="-DDEBUG_FISSION=OFF"
 fi
 
-if [[ "$ARCH_NAME" = "i686" ]]
+if [[ "$JSC_ARCH" = "x86" ]]
 then
     JSC_FEATURE_FLAGS=" \
       -DENABLE_JIT=OFF \
@@ -72,17 +67,13 @@ $TARGETDIR/webkit/Tools/Scripts/build-webkit \
   --no-xslt \
   --no-netscape-plugin-api \
   --no-tools \
-  --cmakeargs="-DCMAKE_SYSTEM_NAME=Android \
+  --cmakeargs="-DCMAKE_MAKE_PROGRAM=${CMAKE_FOLDER}/ninja             \
+  -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake   \
+  -DANDROID_ABI=${ANDROID_ABI}                                                \
+  -DANDROID_NATIVE_API_LEVEL=${ANDROID_API}                               \
   $SWITCH_BUILD_WEBKIT_CMAKE_ARGS_COMPAT \
-  -DCMAKE_SYSTEM_VERSION=$ANDROID_API \
-  -DCMAKE_SYSTEM_PROCESSOR=$ARCH_NAME \
-  -DCMAKE_ANDROID_STANDALONE_TOOLCHAIN=$TOOLCHAIN_DIR \
   -DWEBKIT_LIBRARIES_INCLUDE_DIR=$TARGETDIR/icu/source/common \
   -DWEBKIT_LIBRARIES_LINK_DIR=$TARGETDIR/icu/${CROSS_COMPILE_PLATFORM}-${FLAVOR}/lib \
-  -DCMAKE_C_COMPILER=$CROSS_COMPILE_PLATFORM-clang \
-  -DCMAKE_CXX_COMPILER=$CROSS_COMPILE_PLATFORM-clang \
-  -DCMAKE_SYSROOT=$TOOLCHAIN_DIR/sysroot \
-  -DCMAKE_SYSROOT_COMPILE=$TOOLCHAIN_DIR/sysroot \
   -DCMAKE_CXX_FLAGS='${CMAKE_CXX_FLAGS} $COMMON_CXXFLAGS $CMAKE_CXX_FLAGS' \
   -DCMAKE_C_FLAGS='${CMAKE_C_FLAGS} $CMAKE_CXX_FLAGS' \
   -DCMAKE_C_FLAGS_DEBUG='${DEBUG_SYMBOL_LEVEL}' \

@@ -1,7 +1,7 @@
 diff -aur target-org/webkit/Source/cmake/FindICU.cmake target/webkit/Source/cmake/FindICU.cmake
 --- target-org/webkit/Source/cmake/FindICU.cmake	2019-03-26 11:25:17.000000000 +0800
 +++ target/webkit/Source/cmake/FindICU.cmake	2019-03-26 11:30:34.000000000 +0800
-@@ -16,19 +16,15 @@
+@@ -16,19 +16,17 @@
  find_path(
      ICU_INCLUDE_DIR
      NAMES unicode/utypes.h
@@ -9,6 +9,7 @@ diff -aur target-org/webkit/Source/cmake/FindICU.cmake target/webkit/Source/cmak
 -          ${PC_ICU_INCLUDEDIR}
 -          ${WEBKIT_LIBRARIES_INCLUDE_DIR}
 +    HINTS ${WEBKIT_LIBRARIES_INCLUDE_DIR}
++    NO_CMAKE_FIND_ROOT_PATH
      DOC "Include directory for the ICU library")
  mark_as_advanced(ICU_INCLUDE_DIR)
 
@@ -21,10 +22,11 @@ diff -aur target-org/webkit/Source/cmake/FindICU.cmake target/webkit/Source/cmak
 -          ${WEBKIT_LIBRARIES_LINK_DIR}
 +    NAMES icuuc_jsc
 +    HINTS ${WEBKIT_LIBRARIES_LINK_DIR}
++    NO_CMAKE_FIND_ROOT_PATH
      DOC "Libraries to link against for the common parts of ICU")
  mark_as_advanced(ICU_LIBRARY)
 
-@@ -51,10 +47,8 @@
+@@ -51,10 +49,9 @@
      pkg_check_modules(PC_ICU_I18N icu-i18n)
      find_library(
          ICU_I18N_LIBRARY
@@ -34,10 +36,11 @@ diff -aur target-org/webkit/Source/cmake/FindICU.cmake target/webkit/Source/cmak
 -              ${WEBKIT_LIBRARIES_LINK_DIR}
 +        NAMES icui18n_jsc
 +        HINTS ${WEBKIT_LIBRARIES_LINK_DIR}
++        NO_CMAKE_FIND_ROOT_PATH
          DOC "Libraries to link against for ICU internationalization")
      mark_as_advanced(ICU_I18N_LIBRARY)
      if (ICU_I18N_LIBRARY)
-@@ -68,10 +62,8 @@
+@@ -68,10 +65,9 @@
      # Look for the ICU data libraries
      find_library(
          ICU_DATA_LIBRARY
@@ -47,6 +50,7 @@ diff -aur target-org/webkit/Source/cmake/FindICU.cmake target/webkit/Source/cmak
 -              ${WEBKIT_LIBRARIES_LINK_DIR}
 +        NAMES icudata_jsc
 +        HINTS ${WEBKIT_LIBRARIES_LINK_DIR}
++        NO_CMAKE_FIND_ROOT_PATH
          DOC "Libraries to link against for ICU data")
      mark_as_advanced(ICU_DATA_LIBRARY)
      if (ICU_DATA_LIBRARY)

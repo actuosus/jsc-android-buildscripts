@@ -21,7 +21,7 @@ compile_arch() {
 compile() {
   for arch in arm x86
   do
-    export ANDROID_API=$ANDROID_API_FOR_ABI_32
+    export ANDROID_API=19
     export JSC_ARCH=$arch
     export ENABLE_COMPAT=1
     compile_arch
@@ -29,20 +29,20 @@ compile() {
 
   for arch in arm64 x86_64
   do
-    export ANDROID_API=$ANDROID_API_FOR_ABI_64
+    export ANDROID_API=21
     export JSC_ARCH=$arch
     export ENABLE_COMPAT=0
     compile_arch
   done
 }
 
-if ${I18N}
-then
-  export FLAVOR=intl
-  export ENABLE_INTL=1
-  compile
-else
+#if ${I18N}
+#then
+#  export FLAVOR=intl
+#  export ENABLE_INTL=1
+#  compile
+#else
   export FLAVOR=no-intl
   export ENABLE_INTL=0
   compile
-fi
+#fi
