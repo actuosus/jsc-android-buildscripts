@@ -10,6 +10,9 @@ ICU_PATCHSET=(
 )
 
 JSC_PATCHSET=(
+  #integrate icu of 2.28.2
+  "jsc_icu_2_28_2.patch"
+
   # Basic build setup, e.g. libjsc.so output name
   "jsc.patch"
 
@@ -34,21 +37,21 @@ JSC_PATCHSET=(
   "jsc_fix_build_error_stringview.patch"
 
   # Integrate with Chromium ICU
-  "jsc_icu_integrate.patch"
+  #"jsc_icu_integrate.patch"
 
   # Support getting correct locale setting in Android system
   "jsc_locale_support.patch"
 
   # Will print current JSC version in adb log during initialization
-  "jsc_startup_log_version.patch"
+  #"jsc_startup_log_version.patch"
 
   # NDK r17c does not define __mulodi4, which is being used in debug build.
   # (However, NDK r19 fixed this)
-  "jsc_fix_build_error_mulodi4.patch"
+  #"jsc_fix_build_error_mulodi4.patch"
 
   # statvfs is provided after NDK API level 19.
   # Use statfs as fallback
-  "jsc_fix_build_error_statvfs.patch"
+  #"jsc_fix_build_error_statvfs.patch"
 
   # Misc errors
   "jsc_fix_build_error_miss_headers.patch"

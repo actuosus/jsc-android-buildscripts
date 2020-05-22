@@ -11,4 +11,4 @@ $ANDROID_NDK/build/tools/make_standalone_toolchain.py \
     --arch $ARCH \
     --stl libc++
 
-cp $TOOLCHAIN_LINK_DIR/libc++_shared.so $INSTALL_CPPRUNTIME_DIR
+#cp $TOOLCHAIN_LINK_DIR/libc++_shared.so $INSTALL_CPPRUNTIME_DIR

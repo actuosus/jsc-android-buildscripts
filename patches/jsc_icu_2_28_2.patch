@@ -1,0 +1,189 @@
+Only in ky_chg/webkit/Source/cmake: FindICU.cmake
+diff -aur 2_28_2_org/webkit/Source/cmake/OptionsJSCOnly.cmake ky_chg/webkit/Source/cmake/OptionsJSCOnly.cmake
+--- 2_28_2_org/webkit/Source/cmake/OptionsJSCOnly.cmake	2019-06-06 05:11:39.655334000 +0800
++++ ky_chg/webkit/Source/cmake/OptionsJSCOnly.cmake	2020-05-23 01:57:16.162764593 +0800
+@@ -96,7 +96,8 @@
+ endif ()
+ 
+ if (NOT APPLE)
+-    find_package(ICU REQUIRED COMPONENTS data i18n uc)
++    #find_package(ICU REQUIRED COMPONENTS data i18n uc)
++    find_package(ICU REQUIRED)
+ else ()
+     add_definitions(-DU_DISABLE_RENAMING=1 -DU_SHOW_CPLUSPLUS_API=0)
+     include(target/icu)
+diff -aur 2_28_2_org/webkit/Source/cmake/target/icu.cmake ky_chg/webkit/Source/cmake/target/icu.cmake
+--- 2_28_2_org/webkit/Source/cmake/target/icu.cmake	2019-06-06 05:11:39.655334000 +0800
++++ ky_chg/webkit/Source/cmake/target/icu.cmake	2020-05-23 02:25:39.983430244 +0800
+@@ -1,46 +1,46 @@
+-# Apple ports provide their own ICU that can't be found by find_package(ICU).
+-# This file will create targets that would be created by find_package(ICU).
+-if (APPLE)
+-    set(ICU_INCLUDE_DIRS ${CMAKE_BINARY_DIR}/ICU/Headers)
+-
+-    # Apple just has a single dylib for ICU
+-    set(ICU_I18N_LIBRARY /usr/lib/libicucore.dylib)
+-    set(ICU_UC_LIBRARY /usr/lib/libicucore.dylib)
+-    set(ICU_DATA_LIBRARY /usr/lib/libicucore.dylib)
+-
+-    set(ICU_LIBRARIES ${ICU_UC_LIBRARY})
+-elseif (WIN32 AND NOT WTF_PLATFORM_WIN_CAIRO)
+-    set(ICU_INCLUDE_DIRS ${WEBKIT_LIBRARIES_INCLUDE_DIR})
+-
+-    set(ICU_I18N_LIBRARY ${WEBKIT_LIBRARIES_LINK_DIR}/libicuin${DEBUG_SUFFIX}.lib)
+-    set(ICU_UC_LIBRARY ${WEBKIT_LIBRARIES_LINK_DIR}/libicuuc${DEBUG_SUFFIX}.lib)
+-
+-    # AppleWin does not provide a separate data library
+-    set(ICU_DATA_LIBRARY ${ICU_UC_LIBRARY})
+-
+-    set(ICU_LIBRARIES ${ICU_I18N_LIBRARY} ${ICU_UC_LIBRARY})
+-else ()
+-    message(FATAL_ERROR "Could not find ICU targets. Use find_package(ICU REQUIRED data i1n8 uc)")
+-endif ()
+-
+-# Emulate ICU:: targets
+-add_library(ICU::data UNKNOWN IMPORTED)
+-set_target_properties(ICU::data PROPERTIES
+-    INTERFACE_INCLUDE_DIRECTORIES "${ICU_INCLUDE_DIRS}"
+-    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+-    IMPORTED_LOCATION "${ICU_DATA_LIBRARY}"
+-)
+-
+-add_library(ICU::i18n UNKNOWN IMPORTED)
+-set_target_properties(ICU::i18n PROPERTIES
+-    INTERFACE_INCLUDE_DIRECTORIES "${ICU_INCLUDE_DIRS}"
+-    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+-    IMPORTED_LOCATION "${ICU_I18N_LIBRARY}"
+-)
+-
+-add_library(ICU::uc UNKNOWN IMPORTED)
+-set_target_properties(ICU::uc PROPERTIES
+-    INTERFACE_INCLUDE_DIRECTORIES "${ICU_INCLUDE_DIRS}"
+-    IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
+-    IMPORTED_LOCATION "${ICU_UC_LIBRARY}"
+-)
++# # Apple ports provide their own ICU that can't be found by find_package(ICU).
++# # This file will create targets that would be created by find_package(ICU).
++# if (APPLE)
++#     set(ICU_INCLUDE_DIRS ${CMAKE_BINARY_DIR}/ICU/Headers)
++
++#     # Apple just has a single dylib for ICU
++#     set(ICU_I18N_LIBRARY /usr/lib/libicucore.dylib)
++#     set(ICU_UC_LIBRARY /usr/lib/libicucore.dylib)
++#     set(ICU_DATA_LIBRARY /usr/lib/libicucore.dylib)
++
++#     set(ICU_LIBRARIES ${ICU_UC_LIBRARY})
++# elseif (WIN32 AND NOT WTF_PLATFORM_WIN_CAIRO)
++#     set(ICU_INCLUDE_DIRS ${WEBKIT_LIBRARIES_INCLUDE_DIR})
++
++#     set(ICU_I18N_LIBRARY ${WEBKIT_LIBRARIES_LINK_DIR}/libicuin${DEBUG_SUFFIX}.lib)
++#     set(ICU_UC_LIBRARY ${WEBKIT_LIBRARIES_LINK_DIR}/libicuuc${DEBUG_SUFFIX}.lib)
++
++#     # AppleWin does not provide a separate data library
++#     set(ICU_DATA_LIBRARY ${ICU_UC_LIBRARY})
++
++#     set(ICU_LIBRARIES ${ICU_I18N_LIBRARY} ${ICU_UC_LIBRARY})
++# else ()
++#     message(FATAL_ERROR "Could not find ICU targets. Use find_package(ICU REQUIRED data i1n8 uc)")
++# endif ()
++
++# # Emulate ICU:: targets
++# add_library(ICU::data UNKNOWN IMPORTED)
++# set_target_properties(ICU::data PROPERTIES
++#     INTERFACE_INCLUDE_DIRECTORIES "${ICU_INCLUDE_DIRS}"
++#     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
++#     IMPORTED_LOCATION "${ICU_DATA_LIBRARY}"
++# )
++
++# add_library(ICU::i18n UNKNOWN IMPORTED)
++# set_target_properties(ICU::i18n PROPERTIES
++#     INTERFACE_INCLUDE_DIRECTORIES "${ICU_INCLUDE_DIRS}"
++#     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
++#     IMPORTED_LOCATION "${ICU_I18N_LIBRARY}"
++# )
++
++# add_library(ICU::uc UNKNOWN IMPORTED)
++# set_target_properties(ICU::uc PROPERTIES
++#     INTERFACE_INCLUDE_DIRECTORIES "${ICU_INCLUDE_DIRS}"
++#     IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
++#     IMPORTED_LOCATION "${ICU_UC_LIBRARY}"
++# )
+diff -aur 2_28_2_org/webkit/Source/cmake/target/TargetJavaScriptCore.cmake ky_chg/webkit/Source/cmake/target/TargetJavaScriptCore.cmake
+--- 2_28_2_org/webkit/Source/cmake/target/TargetJavaScriptCore.cmake	2020-01-16 23:56:57.381509000 +0800
++++ ky_chg/webkit/Source/cmake/target/TargetJavaScriptCore.cmake	2020-05-23 02:27:20.656186707 +0800
+@@ -10,7 +10,8 @@
+         IMPORTED_LOCATION ${WEBKIT_LIBRARIES_RUNTIME_DIR}/JavaScriptCore${DEBUG_SUFFIX}.dll
+         IMPORTED_IMPLIB ${WEBKIT_LIBRARIES_LINK_DIR}/JavaScriptCore${DEBUG_SUFFIX}.lib
+         # Should add Apple::CoreFoundation here when https://bugs.webkit.org/show_bug.cgi?id=205085 lands
+-        INTERFACE_LINK_LIBRARIES "WebKit::WTF;ICU::data;ICU::i18n;ICU::uc"
++        #INTERFACE_LINK_LIBRARIES "WebKit::WTF;ICU::data;ICU::i18n;ICU::uc"
++        INTERFACE_LINK_LIBRARIES "WebKit::WTF"
+     )
+     target_include_directories(WebKit::JavaScriptCore INTERFACE
+         ${JavaScriptCore_FRAMEWORK_HEADERS_DIR}
+diff -aur 2_28_2_org/webkit/Source/cmake/target/TargetWTF.cmake ky_chg/webkit/Source/cmake/target/TargetWTF.cmake
+--- 2_28_2_org/webkit/Source/cmake/target/TargetWTF.cmake	2020-01-16 23:56:57.381509000 +0800
++++ ky_chg/webkit/Source/cmake/target/TargetWTF.cmake	2020-05-23 02:27:57.429309176 +0800
+@@ -10,7 +10,7 @@
+         IMPORTED_LOCATION ${WEBKIT_LIBRARIES_RUNTIME_DIR}/WTF${DEBUG_SUFFIX}.dll
+         IMPORTED_IMPLIB ${WEBKIT_LIBRARIES_LINK_DIR}/WTF${DEBUG_SUFFIX}.lib
+         # Should add Apple::CoreFoundation here when https://bugs.webkit.org/show_bug.cgi?id=205085 lands
+-        INTERFACE_LINK_LIBRARIES "ICU::data;ICU::i18n;ICU::uc"
++        #INTERFACE_LINK_LIBRARIES "ICU::data;ICU::i18n;ICU::uc"
+     )
+     target_include_directories(WebKit::WTF INTERFACE
+         ${WTF_FRAMEWORK_HEADERS_DIR}
+diff -aur 2_28_2_org/webkit/Source/JavaScriptCore/CMakeLists.txt ky_chg/webkit/Source/JavaScriptCore/CMakeLists.txt
+--- 2_28_2_org/webkit/Source/JavaScriptCore/CMakeLists.txt	2020-01-17 12:09:32.989579000 +0800
++++ ky_chg/webkit/Source/JavaScriptCore/CMakeLists.txt	2020-05-23 03:03:01.929569044 +0800
+@@ -54,6 +54,10 @@
+     list(APPEND JavaScriptCore_PRIVATE_INCLUDE_DIRECTORIES "${THIRDPARTY_DIR}/capstone/Source/include")
+ endif ()
+ 
++set(JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES
++    "${ICU_INCLUDE_DIRS}"
++)
++
+ set(JavaScriptCore_OBJECT_LUT_SOURCES
+     runtime/ArrayConstructor.cpp
+     runtime/AsyncFromSyncIteratorPrototype.cpp
+@@ -118,6 +122,7 @@
+ 
+ set(JavaScriptCore_LIBRARIES
+     WebKit::WTF
++    ${ICU_I18N_LIBRARIES}
+ )
+ 
+ if (USE_CAPSTONE)
+diff -aur 2_28_2_org/webkit/Source/JavaScriptCore/runtime/DatePrototype.cpp ky_chg/webkit/Source/JavaScriptCore/runtime/DatePrototype.cpp
+--- 2_28_2_org/webkit/Source/JavaScriptCore/runtime/DatePrototype.cpp	2019-11-01 00:14:03.611286000 +0800
++++ ky_chg/webkit/Source/JavaScriptCore/runtime/DatePrototype.cpp	2020-05-23 03:10:43.020311600 +0800
+@@ -246,7 +246,7 @@
+     int year = gdt.year();
+     bool yearNeedsOffset = year < 1900 || year > 2038;
+     if (yearNeedsOffset)
+-        localTM.tm_year = equivalentYearForDST(year) - 1900;
++        localTM.tm_year = WTF::equivalentYearForDST(year) - 1900;
+ 
+ #if HAVE(LANGINFO_H)
+     // We do not allow strftime to generate dates with 2-digits years,
+diff -aur 2_28_2_org/webkit/Source/WTF/wtf/CMakeLists.txt ky_chg/webkit/Source/WTF/wtf/CMakeLists.txt
+--- 2_28_2_org/webkit/Source/WTF/wtf/CMakeLists.txt	2020-02-04 03:29:22.441940000 +0800
++++ ky_chg/webkit/Source/WTF/wtf/CMakeLists.txt	2020-05-23 03:20:19.440348762 +0800
+@@ -517,10 +517,13 @@
+     list(APPEND WTF_LIBRARIES WebKit::bmalloc)
+ endif ()
+ 
++set(WTF_SYSTEM_INCLUDE_DIRECTORIES
++    ${ICU_INCLUDE_DIRS}
++)
+ list(APPEND WTF_LIBRARIES
+-    ICU::data
+-    ICU::i18n
+-    ICU::uc
++    ${ICU_I18N_LIBRARIES}
++    ${ICU_LIBRARIES}
++    ${ICU_DATA_LIBRARIES}
+ )
+ 
+ set(WTF_INTERFACE_LIBRARIES WTF)
