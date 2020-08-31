@@ -5,7 +5,7 @@ jobs:
     working_directory: ~/jsc-android-buildscripts
     machine: true
     environment:
-      NDK_VERSION: r17c
+      NDK_VERSION: r21d
       SDK_VERSION: sdk-tools-linux-3859397.zip
       ANDROID_HOME: /home/circleci/android-sdk
       ANDROID_NDK: /home/circleci/android-ndk
@@ -44,8 +44,7 @@ jobs:
               cd ${ANDROID_NDK} && \
               rm -rf /tmp/android-ndk-tmp
             sdkmanager \
-              "lldb;3.0" \
-              "cmake;3.6.4111459"
+              "cmake;3.10.2.4988404"
       - run:
           name: install subversion
           command: |

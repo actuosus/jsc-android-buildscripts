@@ -12,7 +12,7 @@ This project is based on [facebook/android-jsc](https://github.com/facebook/andr
 * Homebrew (https://brew.sh/)
 * GNU coreutils `brew install coreutils`
 * Node `brew install node`
-* Java 8: `brew tap caskroom/versions && brew cask install java8`
+* Java 8: `brew tap caskroom/versions && brew cask install java8` or `brew tap homebrew/cask-versions && brew cask install homebrew/cask-versions/adoptopenjdk8`
 * Android SDK: `brew cask install android-sdk`
   * Run `sdkmanager --list` and install all platforms, tools, buildtool v28.0.3, cmake (android images are not needed)
   * Set `$ANDROID_HOME` to the correct path (in ~/.bashrc or similar)
@@ -65,7 +65,7 @@ yarn add jsc-android
 1. Add `jsc-android` to the "dependencies" section in your `package.json`:
 ```diff
 dependencies {
-+  "jsc-android": "241213.x.x",
++  "jsc-android": "260637.x.x",
 ```
 
 then run `npm install` or `yarn` (depending on which npm client you use) in order for the new dependency to be installed in `node_modules`
@@ -94,7 +94,7 @@ allprojects {
 
 dependencies {
 +   // Make sure to put android-jsc at the top
-+   implementation "org.webkit:android-jsc:r241213"
++   implementation "org.webkit:android-jsc:r260637"
 +
     compile fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
@@ -121,7 +121,7 @@ android {
 1. Add `jsc-android` to the "dependencies" section in your `package.json`:
 ```diff
 dependencies {
-+  "jsc-android": "241213.x.x",
++  "jsc-android": "260637.x.x",
 ```
 
 then run `npm install` or `yarn` (depending which npm client you use) in order for the new dependency to be installed in `node_modules`
@@ -151,7 +151,7 @@ allprojects {
 
 +configurations.all {
 +    resolutionStrategy {
-+        force 'org.webkit:android-jsc:r241213'
++        force 'org.webkit:android-jsc:r260637'
 +    }
 +}
 
@@ -189,7 +189,7 @@ For React Native version 0.59, replace original artifact id with `android-jsc-in
 
 dependencies {
 +   // Make sure to put android-jsc at the the first
-+   implementation "org.webkit:android-jsc-intl:r241213"
++   implementation "org.webkit:android-jsc-intl:r260637"
 +
     compile fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
@@ -204,7 +204,7 @@ For React Native version 0.58 below, replace original `resolutionStrategy` with 
 +    resolutionStrategy {
 +        eachDependency { DependencyResolveDetails details ->
 +            if (details.requested.name == 'android-jsc') {
-+                details.useTarget group: details.requested.group, name: 'android-jsc-intl', version: 'r241213'
++                details.useTarget group: details.requested.group, name: 'android-jsc-intl', version: 'r260637'
 +            }
 +        }
 +    }

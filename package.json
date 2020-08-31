@@ -1,6 +1,6 @@
 {
   "name": "jsc-android",
-  "version": "245459.0.0",
+  "version": "260637.0.0",
   "description": "Pre-build version of JavaScriptCore to be used by React Native apps",
   "repository": {
     "type": "git",
@@ -29,5 +29,8 @@
     "webkitGTK_2_24_2": "2.24.2",
     "webkitGTK": "2.28.2",
     "chromiumICUCommit": "64e5d7d43a1ff205e3787ab6150bbc1a1837332b"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
