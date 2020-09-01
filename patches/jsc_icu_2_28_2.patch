@@ -2,16 +2,23 @@ Only in ky_chg/webkit/Source/cmake: FindICU.cmake
 diff -aur 2_28_2_org/webkit/Source/cmake/OptionsJSCOnly.cmake ky_chg/webkit/Source/cmake/OptionsJSCOnly.cmake
 --- 2_28_2_org/webkit/Source/cmake/OptionsJSCOnly.cmake	2019-06-06 05:11:39.655334000 +0800
 +++ ky_chg/webkit/Source/cmake/OptionsJSCOnly.cmake	2020-05-23 01:57:16.162764593 +0800
-@@ -96,7 +96,8 @@
+@@ -95,9 +90,10 @@
+     SET_AND_EXPOSE_TO_BUILD(WTF_DEFAULT_EVENT_LOOP 0)
  endif ()
  
- if (NOT APPLE)
+-if (NOT APPLE)
 -    find_package(ICU REQUIRED COMPONENTS data i18n uc)
-+    #find_package(ICU REQUIRED COMPONENTS data i18n uc)
-+    find_package(ICU REQUIRED)
- else ()
-     add_definitions(-DU_DISABLE_RENAMING=1 -DU_SHOW_CPLUSPLUS_API=0)
-     include(target/icu)
+-else ()
+-    add_definitions(-DU_DISABLE_RENAMING=1 -DU_SHOW_CPLUSPLUS_API=0)
+-    include(target/icu)
+-endif ()
++# if (NOT APPLE)
++#     #find_package(ICU REQUIRED COMPONENTS data i18n uc)
++#     find_package(ICU REQUIRED)
++# else ()
++add_definitions(-DU_DISABLE_RENAMING=1 -DU_SHOW_CPLUSPLUS_API=0)
++include(target/icu)
++# endif ()
 diff -aur 2_28_2_org/webkit/Source/cmake/target/icu.cmake ky_chg/webkit/Source/cmake/target/icu.cmake
 --- 2_28_2_org/webkit/Source/cmake/target/icu.cmake	2019-06-06 05:11:39.655334000 +0800
 +++ ky_chg/webkit/Source/cmake/target/icu.cmake	2020-05-23 02:25:39.983430244 +0800
