@@ -72,7 +72,7 @@ diff -aur 2_28_2_org/webkit/Source/cmake/target/icu.cmake ky_chg/webkit/Source/c
 +# # Apple ports provide their own ICU that can't be found by find_package(ICU).
 +# # This file will create targets that would be created by find_package(ICU).
 +# if (APPLE)
-+#     set(ICU_INCLUDE_DIRS ${CMAKE_BINARY_DIR}/ICU/Headers)
++     set(ICU_INCLUDE_DIRS ${WEBKIT_LIBRARIES_INCLUDE_DIR})
 +
 +#     # Apple just has a single dylib for ICU
 +#     set(ICU_I18N_LIBRARY /usr/lib/libicucore.dylib)
