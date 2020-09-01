@@ -15,6 +15,12 @@ rm -rf $BUILD_DIR
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
+# if ! realpath -v COMMAND &> /dev/null
+# then
+#     echo "realpath could not be found. Please install it with brew install coreutils"
+#     exit 1
+# fi
+
 CROSS_BUILD_DIR=$(realpath $TARGETDIR/icu/host)
 PATH=$TOOLCHAIN_DIR/bin:$PATH
 
@@ -47,7 +53,8 @@ $TARGETDIR/icu/source/configure --prefix=$(pwd)/prebuilts \
     CXX=$CROSS_COMPILE_PLATFORM-clang++ \
     AR=$CROSS_COMPILE_PLATFORM-ar \
     RINLIB=$CROSS_COMPILE_PLATFORM-ranlib \
-    --with-data-packaging=static
+    --with-data-packaging=static \
+    --disable-renaming
 
 make -j15
 
