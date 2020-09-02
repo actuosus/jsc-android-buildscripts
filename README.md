@@ -1,5 +1,5 @@
 [![npm version](https://badge.fury.io/js/jsc-android.svg)](https://badge.fury.io/js/jsc-android)
-[![CircleCI](https://circleci.com/gh/react-native-community/jsc-android-buildscripts.svg?style=svg)](https://circleci.com/gh/react-native-community/jsc-android-buildscripts)
+[![CircleCI](https://circleci.com/gh/actuosus/jsc-android-buildscripts.svg?style=svg)](https://circleci.com/gh/actuosus/jsc-android-buildscripts)
 
 # JSC build scripts for Android
 
@@ -14,11 +14,11 @@ This project is based on [facebook/android-jsc](https://github.com/facebook/andr
 * Node `brew install node`
 * Java 8: `brew tap caskroom/versions && brew cask install java8` or `brew tap homebrew/cask-versions && brew cask install homebrew/cask-versions/adoptopenjdk8`
 * Android SDK: `brew cask install android-sdk`
-  * Run `sdkmanager --list` and install all platforms, tools, buildtool v28.0.3, cmake (android images are not needed)
+  * Run `sdkmanager --list` and install all platforms, tools, buildtool v27.0.3, cmake v3.10 (android images are not needed)
   * Set `$ANDROID_HOME` to the correct path (in ~/.bashrc or similar)
   * Set `export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools/bin`
-* Android NDK r17c: download from [NDK Archives](https://developer.android.com/ndk/downloads/older_releases.html)
-  * Set `export ANDROID_NDK=/path/to/android-ndk-r17c`
+* Android NDK r21d: download from [NDK Archives](https://developer.android.com/ndk/downloads/older_releases.html)
+  * Set `export ANDROID_NDK=/path/to/android-ndk-r21d`
 * Make sure you have Ruby (>2.3), Python (>2.7), Git, SVN, gperf
 
 ## Build instructions
@@ -36,7 +36,7 @@ The library is packaged as a local Maven repository containing AAR files that in
 
 ## Distribution
 
-JSC library built using this project is distributed over npm: [npm/jsc-android](https://www.npmjs.com/package/jsc-android).
+JSC library built using this project is distributed over npm: [npm/@actuosus/jsc-android](https://www.npmjs.com/package/@actuosus/jsc-android).
 The library is packaged as a local Maven repository containing AAR files that include the binaries.
 Please refer to the section below in order to learn how your app can consume this format.
 
@@ -48,29 +48,29 @@ Follow steps below in order for your React Native app to use new version of JSC 
 
 ### For React Native version 0.60 and newer
 
-1. Update `jsc-android`:
+1. Update `@actuosus/jsc-android`:
 
 ```
-yarn add jsc-android
+yarn add @actuosus/jsc-android
 
 # Or if you would like to try latest version
-# yarn add 'jsc-android@canary`
+# yarn add '@actuosus/jsc-android@canary`
 
 ```
 
 2. You're done, rebuild your app and enjoy updated version of JSC on android!
 
-### For React Native version 0.59
+### For React Native version 0.59+
 
-1. Add `jsc-android` to the "dependencies" section in your `package.json`:
+1. Add `@actuosus/jsc-android` to the "dependencies" section in your `package.json`:
 ```diff
 dependencies {
-+  "jsc-android": "260637.x.x",
++  "@actuosus/jsc-android": "260637.x.x",
 ```
 
 then run `npm install` or `yarn` (depending on which npm client you use) in order for the new dependency to be installed in `node_modules`
 
-2. Modify `android/build.gradle` file to add the new local maven repository packaged in the `jsc-android` package to the search path:
+2. Modify `android/build.gradle` file to add the new local maven repository packaged in the `@actuosus/jsc-android` package to the search path:
 ```diff
 allprojects {
     repositories {
@@ -82,7 +82,7 @@ allprojects {
         }
 +       maven {
 +           // Local Maven repo containing AARs with JSC library built for Android
-+           url "$rootDir/../node_modules/jsc-android/dist"
++           url "$rootDir/../node_modules/@actuosus/jsc-android/dist"
 +       }
     }
 }
@@ -118,15 +118,15 @@ android {
 
 ### For React Native version 0.58 below
 
-1. Add `jsc-android` to the "dependencies" section in your `package.json`:
+1. Add `@actuosus/jsc-android` to the "dependencies" section in your `package.json`:
 ```diff
 dependencies {
-+  "jsc-android": "260637.x.x",
++  "@actuosus/jsc-android": "260637.x.x",
 ```
 
 then run `npm install` or `yarn` (depending which npm client you use) in order for the new dependency to be installed in `node_modules`
 
-2. Modify `android/build.gradle` file to add new local maven repository packaged in the `jsc-android` package to the search path:
+2. Modify `android/build.gradle` file to add new local maven repository packaged in the `@actuosus/jsc-android` package to the search path:
 ```diff
 allprojects {
     repositories {
@@ -138,7 +138,7 @@ allprojects {
         }
 +       maven {
 +           // Local Maven repo containing AARs with JSC library built for Android
-+           url "$rootDir/../node_modules/jsc-android/dist"
++           url "$rootDir/../node_modules/@actuosus/jsc-android/dist"
 +       }
     }
 }
@@ -238,7 +238,7 @@ packagingOptions {
 
 ## Credits
 
-Check [the list of contributors here](https://github.com/react-community/jsc-android-buildscripts/graphs/contributors). This project is supported by:
+Check [the list of contributors here](https://github.com/actuosus/jsc-android-buildscripts/graphs/contributors). This project is supported by:
 
 
 [![expo](https://avatars2.githubusercontent.com/u/12504344?v=3&s=100 "Expo.io")](https://expo.io)

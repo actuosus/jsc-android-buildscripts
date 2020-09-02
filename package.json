@@ -1,10 +1,10 @@
 {
-  "name": "jsc-android",
+  "name": "@actuosus/jsc-android",
   "version": "260637.0.0",
   "description": "Pre-build version of JavaScriptCore to be used by React Native apps",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/react-community/jsc-android-buildscripts.git"
+    "url": "git+https://github.com/actuosus/jsc-android-buildscripts.git"
   },
   "keywords": [
     "react-native",
@@ -13,9 +13,9 @@
   ],
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/react-community/jsc-android-buildscripts/issues"
+    "url": "https://github.com/actuosus/jsc-android-buildscripts/issues"
   },
-  "homepage": "https://github.com/react-community/jsc-android-buildscripts#readme",
+  "homepage": "https://github.com/actuosus/jsc-android-buildscripts#readme",
   "files": [
     "/dist"
   ],
