@@ -8,6 +8,7 @@ export BUILD_TYPE=Release
 # export BUILD_TYPE=Debug
 
 SCRIPT_DIR=$(cd `dirname $0`; pwd)
+DOWNLOAD_DIR=$ROOTDIR/build/download
 
 patchAndMakeICU() {
   printf "\n\n\t\t===================== patch and make icu into target/icu/host =====================\n\n"
@@ -52,7 +53,13 @@ prep() {
   echo -e '\033]2;'prep'\007'
   printf "\n\n\t\t===================== copy downloaded sources =====================\n\n"
   rm -rf $TARGETDIR
-  cp -Rf $ROOTDIR/build/download $TARGETDIR
+  
+  if [ -d "$DOWNLOAD_DIR" ]; then
+    cp -Rf $DOWNLOAD_DIR $TARGETDIR
+  else
+    printf "\n\t\tNo download directory found. You must execute download script first.\n"
+    exit 1;
+  fi
 
   patchAndMakeICU
   patchJsc
